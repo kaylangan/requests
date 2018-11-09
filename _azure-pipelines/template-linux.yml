@@ -19,24 +19,23 @@ jobs:
     inputs:
       versionSpec: $(PYTHON_VERSION)
       architecture: 'x64'
-    displayName: 'install Python'
+    displayName: 'Install Python'
   - script: |
       make
       pipenv install -e .[socks] --skip-lock 
-    displayName: 'setup'
-  - script: |
-      make test-readme
-    displayName: 'test-readme'
-  - ${{ if ne(parameters.name, 'Windows') }}:
+    displayName: 'Setup'
+  - ${{ if eq(parameters.name, 'Linux') }}:
     - script: |
+        make test-readme
         make ci
-      displayName: 'ci'        
-  - script: |
+      displayName: 'Test and CI' 
+  - ${{ if eq(parameters.name, 'Windows') }}:
+    - script: |
       make coverage
-    displayName: 'coverage'    
+    displayName: 'Coverage'                 
   - script: |
       pipenv run codecov -f coverage.xml
-    displayName: 'run codecov'
+    displayName: 'Run codecov'
   - task: PublishTestResults@2
     displayName: 'publish test results'
     inputs:
