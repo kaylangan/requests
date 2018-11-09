@@ -27,9 +27,10 @@ jobs:
   - script: |
       make test-readme
     displayName: 'test-readme'
-  - script: |
-      make ci
-    displayName: 'ci'        
+  - ${{ if ne(parameters.name, 'Windows') }}:
+    - script: |
+        make ci
+      displayName: 'ci'        
   - script: |
       make coverage
     displayName: 'coverage'    
