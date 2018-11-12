@@ -39,10 +39,9 @@ jobs:
 
   - ${{ if eq(parameters.name, 'Windows') }}:
     - script: |
-      make coverage
-    displayName: 'Coverage'                 
+        make coverage
+      displayName: 'Coverage'              
   
   - script: |
       pipenv run codecov -f coverage.xml
     displayName: 'Run codecov'
-
